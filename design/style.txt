@@ -1,0 +1,307 @@
+FILE: style.txt
+PROJECT: SwissBet (Prediction Market MVP)
+VERSION: 1.0
+LAST UPDATED: YYYY-MM-DD
+
+--------------------------------------------------
+1. GENERAL DESIGN PRINCIPLES
+--------------------------------------------------
+- Overall vibe: Modern, minimalist, slightly “pro” / fintech.
+- Color scheme: Dark greys as base, desaturated blue as accent.
+- Contrast: High enough for readability, but avoid pure black/white.
+- Corners: Softly rounded (8–16px radii).
+- Shadows: Subtle depth, no heavy blur.
+- Motion: Light, fast transitions (150–200ms) on hover/focus.
+
+Responsive baseline:
+- Mobile-first, content max-width around 1100px on large screens.
+- Main content centered with generous horizontal padding.
+
+--------------------------------------------------
+2. COLOR SYSTEM
+--------------------------------------------------
+Use the following as the SINGLE SOURCE OF TRUTH for colors.
+
+NEUTRAL / GREY SCALE
+- base-bg          #05060A   (Fallback app background in dark sections)
+- bg               #0D1017   (Main background for dark regions)
+- bg-elevated      #151924   (Cards, headers, modals)
+- bg-subtle        #1C2230   (Sub-panels, inputs)
+- border-subtle    #242B3B   (Card borders, dividers)
+- border-strong    #353F53   (Strong borders / emphasis)
+- text-primary     #F4F7FF   (Main text on dark backgrounds)
+- text-secondary   #A5B0C8   (Secondary text, hints)
+- text-muted       #6C7691   (Disabled, less important info)
+- text-inverse     #05060A   (On light/blue buttons)
+
+ACCENT COLORS
+- primary          #2B82FF   (Main accent, links, primary buttons)
+- primary-soft     #163B6F   (Soft blue backgrounds, chips)
+- primary-hover    #1F6ADC   (Primary hover)
+- primary-strong   #0D4BB0   (Strong accent, focus ring)
+
+FEEDBACK COLORS
+- success          #36C990   (Positive state, success messages)
+- success-soft     #10352A   (Success background tint)
+- warning          #F5A623   (Warnings, non-blocking issues)
+- warning-soft     #3B2B10   (Warning background tint)
+- danger           #FF4D6A   (Errors, destructive actions)
+- danger-soft      #3A1017   (Error background tint)
+
+SURFACE / UTILITY
+- input-bg         #151924
+- input-border     #242B3B
+- input-border-focus #2B82FF
+- chip-bg          #1C2230
+- chip-border      #353F53
+
+DO NOT:
+- Do not use pure white (#FFFFFF) or pure black (#000000) for large surfaces.
+- Do not introduce new accent colors without adding them here.
+
+--------------------------------------------------
+3. TYPOGRAPHY
+--------------------------------------------------
+Font family:
+- Primary: System stack (for now) → `"system-ui", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`
+- Can be replaced later with a brand font (e.g. Inter).
+
+Sizes (desktop baseline):
+- h1: 28–32px, weight 600–700
+- h2: 22–24px, weight 600
+- h3: 18–20px, weight 500–600
+- body: 14–16px, weight 400
+- label / small: 12–13px, weight 500
+
+Line height:
+- Headings: 1.1–1.25
+- Body: 1.5
+
+Usage:
+- Use one main heading per page (h1).
+- Use text-secondary for helper/description text.
+
+--------------------------------------------------
+4. SPACING & LAYOUT
+--------------------------------------------------
+Base spacing unit: 8px.
+
+Common spacings:
+- Card padding: 16–24px
+- Section padding (desktop): 24–32px
+- Vertical gaps between blocks: 16–24px
+- Form field vertical spacing: 12–16px
+
+Max widths:
+- Main content: 960–1100px
+- Auth / simple forms: 360–480px
+
+--------------------------------------------------
+5. BORDER RADIUS & SHADOWS
+--------------------------------------------------
+Border radius:
+- buttons:       9999px (pill) OR 9999 for primary, 8px for secondary (your choice, but be consistent)
+- inputs:        8px
+- cards/panels:  12px
+- modals:        16px
+
+Shadows (approximated for CSS):
+- card-shadow:   0 12px 30px rgba(0, 0, 0, 0.25)
+- subtle-shadow: 0 4px 12px rgba(0, 0, 0, 0.18)
+
+--------------------------------------------------
+6. BUTTON STYLES
+--------------------------------------------------
+General:
+- Font: 13–14px, medium (500–600)
+- Height: 36–40px
+- Horizontal padding: 16–20px
+- Transition: 150–200ms (background, border, transform)
+
+6.1 PRIMARY BUTTON
+Purpose: Main actions (e.g. “Place bet”, “Save”, “Create market”).
+
+Default:
+- bg:            primary (#2B82FF)
+- text:          text-inverse (#05060A)
+- border:        transparent
+- radius:        9999px (pill)
+- shadow:        subtle-shadow
+
+Hover:
+- bg:            primary-hover (#1F6ADC)
+- text:          text-inverse
+- transform:     translateY(-1px)
+
+Active:
+- bg:            primary-strong (#0D4BB0)
+- transform:     translateY(0)
+
+Disabled:
+- bg:            #2B82FF with 40–50% opacity
+- text:          #05060A with 60% opacity
+- cursor:        not-allowed
+- no hover transform
+
+6.2 SECONDARY BUTTON
+Purpose: Secondary actions, navigation.
+
+Default:
+- bg:            transparent
+- border:        1px solid border-subtle (#242B3B)
+- text:          text-primary (#F4F7FF)
+- radius:        9999px OR 8px (match with primary style)
+- shadow:        none or very subtle
+
+Hover:
+- bg:            bg-subtle (#1C2230)
+- border:        1px solid border-strong (#353F53)
+
+Active:
+- bg:            #141924
+
+Disabled:
+- border:        1px solid border-subtle with 50% opacity
+- text:          text-muted
+
+6.3 DESTRUCTIVE BUTTON
+Purpose: Irreversible actions.
+
+Default:
+- bg:            danger (#FF4D6A)
+- text:          text-inverse (#05060A)
+- border:        transparent
+
+Hover:
+- bg:            #E53B58
+
+Active:
+- bg:            #C52D47
+
+--------------------------------------------------
+7. INPUTS, SELECTS, TEXTAREAS
+--------------------------------------------------
+General:
+- Font: 14px
+- Height: 40px (single-line)
+- Radius: 8px
+- Padding: 10–12px horizontal
+- Background: input-bg (#151924)
+- Border: 1px solid input-border (#242B3B)
+- Text color: text-primary (#F4F7FF)
+- Placeholder: text-muted (#6C7691), smaller opacity
+
+Focus:
+- border-color: input-border-focus (#2B82FF)
+- box-shadow: 0 0 0 1px #2B82FF
+- outline: none
+
+Error state:
+- border-color: danger (#FF4D6A)
+- optional background: danger-soft (#3A1017)
+
+Disabled:
+- bg: #151924 with 50–60% opacity
+- text: text-muted
+- cursor: not-allowed
+
+Label text:
+- Size: 12–13px
+- Color: text-secondary (#A5B0C8)
+- Spacing: 4px between label and input
+
+Helper/error text:
+- Helper: 12px, text-secondary
+- Error: 12px, danger
+
+--------------------------------------------------
+8. CARDS & PANELS (e.g. markets, forms)
+--------------------------------------------------
+Default card (e.g. market card):
+- bg:            bg-elevated (#151924)
+- border:        1px solid border-subtle (#242B3B)
+- text:          text-primary (#F4F7FF)
+- radius:        12px
+- padding:       16–24px
+- shadow:        card-shadow
+
+Header inside card (e.g. question):
+- Font:          16–18px, weight 600
+- Color:         text-primary
+- Margin-bottom: 4–8px
+
+Meta info (e.g. closing date):
+- Font:          12–13px
+- Color:         text-secondary
+
+Spacing between cards:
+- 12–16px vertical
+
+--------------------------------------------------
+9. LINKS & INTERACTIVE TEXT
+--------------------------------------------------
+Default link:
+- Color:         primary (#2B82FF)
+- Decoration:    none by default
+- Hover:         underline or change color to primary-hover (#1F6ADC)
+- Active:        primary-strong (#0D4BB0)
+
+Inline “view details” links should use:
+- Font weight:   500
+- Size:          same as surrounding text
+
+--------------------------------------------------
+10. STATES & FEEDBACK COMPONENTS
+--------------------------------------------------
+SUCCESS MESSAGE:
+- bg:            success-soft (#10352A)
+- border:        1px solid success (#36C990)
+- text:          success (#36C990)
+- icon:          simple check icon in success color
+- radius:        8px
+- padding:       8–12px
+
+WARNING MESSAGE:
+- bg:            warning-soft (#3B2B10)
+- border:        1px solid warning (#F5A623)
+- text:          warning (#F5A623)
+
+ERROR MESSAGE:
+- bg:            danger-soft (#3A1017)
+- border:        1px solid danger (#FF4D6A)
+- text:          danger (#FF4D6A)
+
+--------------------------------------------------
+11. TAILWIND MAPPING (IF USING TAILWIND)
+--------------------------------------------------
+If using Tailwind, map the above to custom colors in tailwind.config:
+
+- neutral/background:
+  - bg:          bg-slate-950 / custom `bg-main`
+  - bg-elevated: bg-slate-900 / custom `bg-card`
+  - borders:     border-slate-700 / custom `border-subtle`
+
+- primary:
+  - primary:     `#2B82FF`
+  - primary-soft:`#163B6F`
+
+- text:
+  - primary:     `#F4F7FF`
+  - secondary:   `#A5B0C8`
+
+Example classes:
+- Primary button:
+  - `bg-[#2B82FF] text-[#05060A] rounded-full px-4 py-2 text-sm font-medium shadow-md hover:bg-[#1F6ADC] transition`
+
+- Card:
+  - `bg-[#151924] border border-[#242B3B] rounded-xl p-4 shadow-lg`
+
+--------------------------------------------------
+12. COMPONENT HIERARCHY PRIORITY
+--------------------------------------------------
+1. Primary actions (blue buttons) should be visually dominant and limited per screen.
+2. Secondary actions and text links must be visually lighter.
+3. Markets and points balance are the core entities; they should sit on elevated surfaces and be clearly separated from background.
+4. Use accent blue sparingly: for primary CTA, key links, focus states, and maybe one graph element in the future.
+
+END OF FILE

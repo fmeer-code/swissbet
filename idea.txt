@@ -1,0 +1,378 @@
+🚀 MVP SPEC – Prediction Intelligence Game (Simplified Version)
+
+⸻
+
+0. Vision (MVP)
+
+A global, money-free prediction game where users:
+	•	Vote YES/NO on real-world questions
+	•	See a live percentage graph of crowd belief
+	•	Can change their vote anytime before close
+	•	Score points based on:
+	•	whether they were right or wrong
+	•	how many people disagreed with them
+	•	how early they made their final choice
+
+Leaderboard = global ranking of SmartScore (start at 0).
+
+⸻
+
+1. Core Gameplay Loop
+	1.	User signs up → chooses username → starts at SmartScore = 0
+	2.	Sees list of open markets
+	3.	Enters market → sees:
+	•	live % YES / % NO
+	•	graph over time
+	4.	Votes YES or NO
+	5.	Can change vote → every change updates final_lock_time
+	6.	At close: voting stops
+	7.	After outcome known → scoring happens
+	8.	SmartScore increases or decreases
+	9.	Leaderboard updates
+
+This is the entire addictive loop.
+
+⸻
+
+2. Scoring System (Final MVP Version)
+
+Since you removed crowd-weighting, we go with pure percentages from all users.
+
+Let:
+	•	yes_pct = yes_votes / total_votes
+	•	no_pct = 1 - yes_pct
+
+⸻
+
+2.1. Base scoring (your original idea)
+
+If YES actually happens:
+	•	YES voters gain:
+
+base_delta = no_pct * 100
+
+
+	•	NO voters lose:
+
+base_delta = -yes_pct * 100
+
+
+
+If NO happens:
+	•	NO voters gain yes_pct * 100
+	•	YES voters lose no_pct * 100
+
+This is simple, elegant, and matches your vision exactly.
+
+⸻
+
+2.2. Early final-lock multiplier (vote order)
+
+We use vote order, not time.
+
+For each user, when the market closes:
+	1.	Sort users by final_lock_time (earliest → latest)
+	2.	Assign a position (1…N)
+	3.	Compute:
+
+vote_percentile = (position - 1) / (N - 1)
+
+	4.	Apply multiplier (MVP tiered system):
+
+if vote_percentile <= 0.01: multiplier = 1.0   # earliest 1%
+else if vote_percentile <= 0.10: multiplier = 0.9
+else if vote_percentile <= 0.50: multiplier = 0.8
+else if vote_percentile <= 0.90: multiplier = 0.7
+else: multiplier = 0.5                           # last 10%
+
+
+⸻
+
+2.3. Final SmartScore delta
+
+final_delta = base_delta * multiplier
+SmartScore_new = SmartScore_old + final_delta
+
+SmartScore starts at 0.
+
+⸻
+
+2.4. Minimum voters rule
+
+To prevent easy exploits:
+
+A market must have at least 20 voters to be scored.
+
+If fewer → no SmartScore changes.
+
+⸻
+
+3. Anti-Exploit Logic (Simplified for MVP)
+
+Because you removed weighted voting, keep these protections:
+
+✔ Score only the final vote, not intermediate votes
+
+Prevents early-lock-then-flip exploits.
+
+✔ Only count users with a valid login
+
+No anonymous votes.
+
+✔ Minimum voter threshold (20)
+
+Prevents tiny markets being manipulated.
+
+✔ Maximum per-market score cap (optional MVP)
+
+If you want:
+
+max_gain = 100 points
+
+You can enable or disable this later.
+
+✔ Users cannot see who voted what (no manipulation coordination)
+
+⸻
+
+4. Database Schema (Simplified MVP)
+
+profiles
+
+id (uuid) PK
+username (unique)
+smart_score (float)  -- start at 0
+is_admin (boolean)
+created_at
+
+
+⸻
+
+markets
+
+id (uuid)
+question (text)
+description (text)
+category (text)
+status (open | closed | resolved)
+close_time (timestamp)
+created_by (uuid)
+final_yes_pct (float)
+final_no_pct (float)
+winning_outcome (yes | no)
+
+created_at
+
+
+⸻
+
+votes
+
+id (uuid)
+market_id (uuid)
+user_id (uuid)
+final_choice (yes | no)
+final_lock_time (timestamp)
+
+created_at
+
+This table stores only the final position, not history.
+
+⸻
+
+score_changes (optional but recommended for transparency)
+
+id
+market_id
+user_id
+base_delta
+multiplier
+final_delta
+smart_score_before
+smart_score_after
+timestamp
+
+
+⸻
+
+5. Frontend Screens (MVP)
+
+5.1. /signup
+	•	email
+	•	password
+	•	username (public, unique)
+	•	automatically create profile: smart_score = 0
+
+5.2. /
+
+List of open markets:
+	•	question
+	•	category
+	•	closing countdown
+	•	current %YES / %NO
+	•	click to open
+
+5.3. /market/[id]
+	•	question
+	•	category
+	•	description
+	•	big YES / NO buttons
+	•	“You chose: YES/NO”
+	•	Live %YES / %NO
+	•	Graph of YES% over time (mandatory MVP)
+	•	Change vote
+	•	Time left
+
+5.4. /leaderboard
+	•	Username
+	•	SmartScore
+	•	Rank
+sorted by SmartScore descending
+
+5.5. /profile/[username]
+	•	SmartScore
+	•	Rank
+	•	Markets participated
+
+5.6. /admin
+	•	Create market
+	•	Resolve market
+
+⸻
+
+6. API Endpoints / Server Actions (Simplified)
+
+POST /api/vote
+
+Input: { market_id, choice }
+Logic:
+	1.	Check market open
+	2.	Overwrite vote
+	3.	Set final_lock_time = now()
+
+POST /api/admin/create_market
+
+POST /api/admin/resolve_market
+	•	Input: outcome
+	•	Triggers scoring engine
+
+POST /api/scoring_engine
+	•	Run after market resolved
+	•	Computes:
+	•	yes_pct / no_pct
+	•	base_delta
+	•	multiplier
+	•	final_delta
+	•	smart_score updates
+
+⸻
+
+7. Market Close Flow
+
+close_time reached →
+  close market (status = closed)
+  voting disabled
+  show frozen percentages
+wait for real outcome →
+  admin resolves
+  run scoring engine
+update leaderboard
+
+
+⸻
+
+8. Graph of Percentages (MVP Method)
+
+Keep it simple:
+
+Every 10 minutes (or after each vote):
+
+Insert row into a market_snapshots table:
+
+market_id
+timestamp
+yes_pct
+no_pct
+
+The frontend uses these rows to draw the chart with a simple line graph or area graph.
+
+⸻
+
+9. Deployment Setup
+
+Frontend
+	•	Next.js
+	•	Tailwind with your dark theme
+	•	Server Actions for vote, resolve, etc.
+
+Backend
+	•	Supabase (auth + Postgres)
+
+Hosting
+	•	Vercel frontend
+	•	Supabase backend
+
+⸻
+
+10. MVP Checklist (Precise Steps)
+
+Phase 1 — Foundation
+	•	Set up Next.js
+	•	Set up Supabase
+	•	Create tables (profiles, markets, votes)
+	•	Auth (email/password)
+	•	Username selection
+
+Phase 2 — Market Mechanics
+	•	Admin page to create markets
+	•	Market listing page
+	•	Market detail page with YES/NO buttons
+	•	Live % calculation
+	•	Graph data model
+
+Phase 3 — Voting Logic
+	•	Vote endpoint
+	•	final_lock_time logic
+	•	Change vote logic
+
+Phase 4 — Market Closing & Resolution
+	•	Close market at close_time
+	•	Admin sets outcome
+	•	Scoring engine (base + multiplier)
+	•	SmartScore update logic
+
+Phase 5 — Leaderboard
+	•	Simple global leaderboard
+	•	Profile page
+
+Phase 6 — Polish
+	•	Graph of % over time
+	•	Dark theme UI
+	•	Empty/error states
+	•	Security rules (MVP-level)
+
+⸻
+
+11. What makes this MVP powerful
+
+Even with no weighting or advanced features, you already have:
+	•	competition
+	•	identity
+	•	a dynamic graph
+	•	a clever scoring system
+	•	early decision strategy
+	•	global leaderboard
+	•	dopamine loop
+
+It’s strong enough to attract early users.
+
+⸻
+
+If you want, I can also:
+
+👉 generate the SQL migrations
+👉 generate all Next.js pages + code files
+👉 generate the scoring engine (TypeScript)
+👉 mock up the market UI / graph
+
+Just tell me what you want next.

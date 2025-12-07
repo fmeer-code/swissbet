@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg-main: #0d1017;
+  --color-bg-elevated: #151924;
+  --color-bg-subtle: #1c2230;
+
+  --color-border-subtle: #242b3b;
+  --color-border-strong: #353f53;
+
+  --color-text-primary: #f4f7ff;
+  --color-text-secondary: #a5b0c8;
+  --color-text-muted: #6c7691;
+  --color-text-inverse: #05060a;
+
+  --color-primary: #2b82ff;
+  --color-primary-hover: #1f6adc;
+  --color-primary-strong: #0d4bb0;
+
+  --color-danger: #ff4d6a;
+  --color-danger-soft: #3a1017;
+
+  --color-success: #36c990;
+  --color-success-soft: #10352a;
+
+  --color-warning: #f5a623;
+  --color-warning-soft: #3b2b10;
+
+  --color-input-bg: #151924;
+  --color-input-border: #242b3b;
+  --color-input-border-focus: #2b82ff;
+}
+
+@layer base {
+  body {
+    @apply min-h-screen;
+    /* Set font directly instead of @apply font-sans */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    background-color: var(--color-bg-main);
+    color: var(--color-text-primary);
+  }
+}
+
+@layer components {
+  .app-shell {
+    min-height: 100vh;
+    background: var(--color-bg-main);
+    color: var(--color-text-primary);
+  }
+
+  .card {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+  }
+
+  .input {
+    width: 100%;
+    border: 1px solid var(--color-input-border);
+    background: var(--color-input-bg);
+    border-radius: 8px;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.95rem;
+    color: var(--color-text-primary) !important;
+    caret-color: var(--color-text-primary) !important;
+    -webkit-text-fill-color: var(--color-text-primary) !important; /* Safari */
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .input:focus {
+    border-color: var(--color-input-border-focus);
+    box-shadow: 0 0 0 2px var(--color-input-border-focus);
+  }
+
+  .input::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 0.9;
+  }
+
+  textarea.input,
+  select.input,
+  select.input option {
+    color: var(--color-text-primary) !important;
+    caret-color: var(--color-text-primary) !important;
+    -webkit-text-fill-color: var(--color-text-primary) !important; /* Safari */
+    background: var(--color-input-bg) !important;
+  }
+
+  /* Force date/time pickers to respect dark text color */
+  input.input[type="date"],
+  input.input[type="datetime-local"],
+  input.input[type="time"] {
+    color: var(--color-text-primary) !important;
+    background: var(--color-input-bg) !important;
+    -webkit-text-fill-color: var(--color-text-primary) !important;
+  }
+
+  input.input:-webkit-autofill,
+  textarea.input:-webkit-autofill,
+  select.input:-webkit-autofill {
+    -webkit-text-fill-color: var(--color-text-primary);
+    box-shadow: 0 0 0px 1000px var(--color-input-bg) inset;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .field-error {
+    color: var(--color-danger);
+    font-size: 0.85rem;
+  }
+
+  .alert-error {
+    border: 1px solid var(--color-danger);
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+      color 0.15s ease, transform 0.15s ease;
+  }
+
+  .btn-sm {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.78rem;
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-primary-hover);
+  }
+
+  .btn-secondary {
+    background: var(--color-bg-subtle);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .nav-link {
+    color: var(--color-text-secondary);
+    transition: color 0.15s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-text-primary);
+  }
+}
