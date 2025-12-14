@@ -20,9 +20,9 @@ export default async function MarketsPage() {
   ]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 page-stack">
       <div className="flex items-center justify-between gap-2">
-        <h1 className="text-xl font-semibold">Open markets</h1>
+        <h2 className="text-xl font-semibold">Open markets</h2>
       </div>
       <div className="space-y-3">
         {openMarkets && openMarkets.length > 0 ? (

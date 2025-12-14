@@ -141,7 +141,7 @@
   }
 
   .btn-sm {
-    padding: 0.45rem 0.9rem;
+    padding: 0.45rem 0.8rem;
     font-size: 0.78rem;
   }
 
@@ -180,9 +180,79 @@
   .nav-link {
     color: var(--color-text-secondary);
     transition: color 0.15s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
   }
 
   .nav-link:hover {
     color: var(--color-text-primary);
+  }
+
+  .navbar {
+    border-bottom: 1px solid var(--color-border-subtle);
+    background: var(--color-bg-elevated);
+    box-sizing: border-box;
+  }
+
+  .navbar-inner {
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.85rem 1.25rem 0.55rem; /* align with main gutter */
+  }
+
+  .navbar-top {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    justify-content: space-between;
+    flex-wrap: nowrap; /* keep brand/actions on the same line */
+    width: 100%;
+    min-width: 0;
+  }
+
+  .navbar-brand {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  .navbar a {
+    text-decoration: none;
+  }
+
+  .navbar-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+    flex-shrink: 0; /* prevent wrapping to next line */
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+    padding-left: 0.2rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+    justify-content: flex-start;
+  }
+
+
+}
+
+@layer components {
+  .page-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
   }
 }
