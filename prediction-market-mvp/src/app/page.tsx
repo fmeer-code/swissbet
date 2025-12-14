@@ -27,7 +27,7 @@ export default async function MarketsPage() {
       <div className="space-y-3">
         {openMarkets && openMarkets.length > 0 ? (
           openMarkets.map((m) => (
-            <Link key={m.id} href={`/market/${m.id}`} className="block card">
+            <Link key={m.id} href={`/market/${m.id}`} className="block card card-spaced">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-sm font-semibold">{m.question}</h2>
@@ -63,7 +63,7 @@ export default async function MarketsPage() {
       <div className="space-y-3">
         {closedMarkets && closedMarkets.length > 0 ? (
           closedMarkets.map((m) => (
-            <Link key={m.id} href={`/market/${m.id}`} className="block card">
+            <Link key={m.id} href={`/market/${m.id}`} className="block card card-spaced">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-sm font-semibold">{m.question}</h2>

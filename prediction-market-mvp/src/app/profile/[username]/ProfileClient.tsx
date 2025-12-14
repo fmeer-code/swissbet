@@ -91,7 +91,7 @@ export default function ProfileClient({ username }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="card">
+      <div className="card card-spaced">
         <h1 className="text-xl font-semibold">@{profile.username}</h1>
         <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
           SmartScore:{" "}
@@ -102,7 +102,7 @@ export default function ProfileClient({ username }: Props) {
         <ProfileActions />
       </div>
 
-      <div className="card">
+      <div className="card card-spaced">
         <h2 className="mb-2 text-sm font-semibold">Recent markets</h2>
         {history.length === 0 && (
           <p className="text-xs text-[var(--color-text-secondary)]">

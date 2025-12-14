@@ -10,8 +10,8 @@ export default async function LeaderboardPage() {
     .limit(100);
 
   return (
-    <div className="card">
-      <h1 className="mb-4 text-xl font-semibold">Global leaderboard</h1>
+    <div className="card card-spaced">
+      <h2 className="mb-4 text-xl font-semibold">Global leaderboard</h2>
       {(!profiles || profiles.length === 0) && (
         <p className="text-sm text-[var(--color-text-secondary)]">
           Nobody has scored yet.

@@ -87,7 +87,7 @@ export default async function MarketPage({ params }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="card">
+      <div className="card card-spaced">
         <h1 className="text-lg font-semibold">{market.question}</h1>
         {market.description && (
           <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
@@ -106,7 +106,7 @@ export default async function MarketPage({ params }: Props) {
         )}
       </div>
 
-      <div className="card">
+      <div className="card card-spaced">
         <div className="mb-2 flex items-center justify-between gap-3">
           <h2 className="text-sm font-semibold">Market sentiment</h2>
           <EarlyBoostInfo marketId={marketId} />
@@ -118,7 +118,7 @@ export default async function MarketPage({ params }: Props) {
         />
       </div>
 
-      <div className="card">
+      <div className="card card-spaced">
         <h2 className="mb-2 text-sm font-semibold">Your prediction</h2>
         <VoteClient marketId={marketId} marketStatus={market.status} />
       </div>

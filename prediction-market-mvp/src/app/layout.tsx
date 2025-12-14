@@ -37,7 +37,7 @@ export default function RootLayout({
           }
           actions={<NavAuthActions />}
         />
-        <main className="mx-auto max-w-5xl px-5 py-6 page-stack">{children}</main>
+        <main className="mx-auto max-w-5xl px-6 py-6 page-stack">{children}</main>
       </body>
     </html>
   );

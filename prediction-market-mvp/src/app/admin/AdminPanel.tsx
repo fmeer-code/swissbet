@@ -279,15 +279,15 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="card">
-        <h1 className="text-xl font-semibold">Admin</h1>
+    <div className="space-y-6">
+      <div className="card card-spaced">
+        <h2 className="text-xl font-semibold">Admin</h2>
         <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
           Create new markets. Fields marked required must be filled.
         </p>
       </div>
 
-      <div className="card">
+      <div className="card card-spaced">
         <h2 className="text-sm font-semibold mb-3">Create market</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -348,7 +348,7 @@ export default function AdminPanel() {
         </form>
       </div>
 
-      <div className="card">
+      <div className="card card-spaced">
         <h2 className="text-sm font-semibold mb-3">Graph visibility threshold</h2>
         <p className="text-xs text-[var(--color-text-secondary)] mb-3">
           Hide the sentiment graph until enough votes are in. This is saved locally in your browser.
@@ -382,7 +382,7 @@ export default function AdminPanel() {
         )}
       </div>
 
-      <div className="card">
+      <div className="card card-spaced">
         <h2 className="text-sm font-semibold mb-3">Scoring minimum voters</h2>
         <p className="text-xs text-[var(--color-text-secondary)] mb-3">
           Markets with fewer than this many votes will resolve with no points awarded.
@@ -416,7 +416,7 @@ export default function AdminPanel() {
         )}
       </div>
 
-      <div className="card">
+      <div className="card card-spaced">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-sm font-semibold">Closed markets</h2>
@@ -479,7 +479,7 @@ export default function AdminPanel() {
         </div>
       </div>
 
-      <div className="card">
+      <div className="card card-spaced">
         <h2 className="text-sm font-semibold mb-3">Manual close</h2>
         <p className="text-xs text-[var(--color-text-secondary)] mb-3">
           Force-close all markets whose close time has passed (sets status to closed).
