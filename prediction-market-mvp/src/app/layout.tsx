@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className="app-shell">
         <Navbar
           brand={
-            <Link href="/" className="text-sm font-semibold">
+            <Link href="/" className="navbar-brand">
               Predict_LOGO
             </Link>
           }

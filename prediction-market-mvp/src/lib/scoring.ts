@@ -102,13 +102,13 @@ export async function scoreMarket(marketId: string, outcome: Outcome) {
   const userIds = Array.from(new Set(votes.map((v) => v.user_id)));
   const { data: profiles, error: profilesError } = await supabaseServer
     .from("profiles")
-    .select("id, smart_score")
+    .select("id, predict_score")
     .in("id", userIds);
 
   if (profilesError) throw new Error(profilesError.message);
 
   const scoreMap = new Map<string, number>();
-  profiles?.forEach((p) => scoreMap.set(p.id, Number(p.smart_score)));
+  profiles?.forEach((p) => scoreMap.set(p.id, Number(p.predict_score)));
 
   // Apply deltas
   for (const v of withPosition) {
@@ -121,7 +121,7 @@ export async function scoreMarket(marketId: string, outcome: Outcome) {
     // Update profiles
     await supabaseServer
       .from("profiles")
-      .update({ smart_score: after })
+      .update({ predict_score: after })
       .eq("id", v.user_id);
 
     // Insert score_changes
@@ -131,8 +131,8 @@ export async function scoreMarket(marketId: string, outcome: Outcome) {
       base_delta: baseDelta,
       multiplier: v.multiplier,
       final_delta: finalDelta,
-      smart_score_before: before,
-      smart_score_after: after,
+      predict_score_before: before,
+      predict_score_after: after,
     });
   }
 

@@ -14,7 +14,7 @@ type ScoreChange = {
 type ProfileData = {
   id: string;
   username: string;
-  smart_score: number;
+  predict_score: number;
 };
 
 interface Props {
@@ -38,7 +38,7 @@ export default function ProfileClient({ username }: Props) {
 
       const { data: profileRow, error: profileError } = await supabase
         .from("profiles")
-        .select("id, username, smart_score")
+        .select("id, username, predict_score")
         .ilike("username", normalized)
         .maybeSingle();
 
@@ -94,9 +94,9 @@ export default function ProfileClient({ username }: Props) {
       <div className="card card-spaced">
         <h1 className="text-xl font-semibold">@{profile.username}</h1>
         <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          SmartScore:{" "}
+          predictScore:{" "}
           <span className="font-semibold">
-            {Number(profile.smart_score).toFixed(1)}
+            {Number(profile.predict_score).toFixed(1)}
           </span>
         </p>
         <ProfileActions />

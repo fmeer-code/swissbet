@@ -5,8 +5,8 @@ export const revalidate = 30;
 export default async function LeaderboardPage() {
   const { data: profiles } = await supabaseServer
     .from("profiles")
-    .select("username, smart_score")
-    .order("smart_score", { ascending: false })
+    .select("username, predict_score")
+    .order("predict_score", { ascending: false })
     .limit(100);
 
   return (
@@ -23,7 +23,7 @@ export default async function LeaderboardPage() {
             <tr>
               <th className="text-left">#</th>
               <th className="text-left">User</th>
-              <th className="text-right">SmartScore</th>
+              <th className="text-right">predictScore</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +34,7 @@ export default async function LeaderboardPage() {
                 </td>
                 <td className="py-1">{p.username}</td>
                 <td className="py-1 text-right font-semibold">
-                  {Number(p.smart_score).toFixed(1)}
+                  {Number(p.predict_score).toFixed(1)}
                 </td>
               </tr>
             ))}

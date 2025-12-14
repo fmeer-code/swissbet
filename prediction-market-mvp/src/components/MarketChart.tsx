@@ -34,8 +34,8 @@ export default function MarketChart({
     );
   }
 
-  const width = 300;
-  const height = 120;
+  const width = 600; // virtual width for scaling in viewBox
+  const height = 300;
   const padding = 10;
 
   const yesPoints = snapshots.map((s, idx) => {
@@ -64,7 +64,13 @@ export default function MarketChart({
           <span className="font-semibold">{latest.no_pct.toFixed(0)}%</span>
         </div>
       </div>
-      <svg width={width} height={height} className="w-full">
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        width="100%"
+        height={height}
+        className="w-full"
+        preserveAspectRatio="none"
+      >
         {/* Background */}
         <rect
           x={0}

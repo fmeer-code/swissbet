@@ -13,12 +13,12 @@ A global, money-free prediction game where users:
 	•	how many people disagreed with them
 	•	how early they made their final choice
 
-Leaderboard = global ranking of SmartScore (start at 0).
+Leaderboard = global ranking of predictScore (start at 0).
 
 ⸻
 
 1. Core Gameplay Loop
-	1.	User signs up → chooses username → starts at SmartScore = 0
+	1.	User signs up → chooses username → starts at predictScore = 0
 	2.	Sees list of open markets
 	3.	Enters market → sees:
 	•	live % YES / % NO
@@ -27,7 +27,7 @@ Leaderboard = global ranking of SmartScore (start at 0).
 	5.	Can change vote → every change updates final_lock_time
 	6.	At close: voting stops
 	7.	After outcome known → scoring happens
-	8.	SmartScore increases or decreases
+	8.	predictScore increases or decreases
 	9.	Leaderboard updates
 
 This is the entire addictive loop.
@@ -88,12 +88,12 @@ else: multiplier = 0.5                           # last 10%
 
 ⸻
 
-2.3. Final SmartScore delta
+2.3. Final predictScore delta
 
 final_delta = base_delta * multiplier
-SmartScore_new = SmartScore_old + final_delta
+predictScore_new = predictScore_old + final_delta
 
-SmartScore starts at 0.
+predictScore starts at 0.
 
 ⸻
 
@@ -103,7 +103,7 @@ To prevent easy exploits:
 
 A market must have at least 20 voters to be scored.
 
-If fewer → no SmartScore changes.
+If fewer → no predictScore changes.
 
 ⸻
 
@@ -141,7 +141,7 @@ profiles
 
 id (uuid) PK
 username (unique)
-smart_score (float)  -- start at 0
+predict_score (float)  -- start at 0
 is_admin (boolean)
 created_at
 
@@ -188,8 +188,8 @@ user_id
 base_delta
 multiplier
 final_delta
-smart_score_before
-smart_score_after
+predict_score_before
+predict_score_after
 timestamp
 
 
@@ -201,7 +201,7 @@ timestamp
 	•	email
 	•	password
 	•	username (public, unique)
-	•	automatically create profile: smart_score = 0
+	•	automatically create profile: predict_score = 0
 
 5.2. /
 
@@ -225,12 +225,12 @@ List of open markets:
 
 5.4. /leaderboard
 	•	Username
-	•	SmartScore
+	•	predictScore
 	•	Rank
-sorted by SmartScore descending
+sorted by predictScore descending
 
 5.5. /profile/[username]
-	•	SmartScore
+	•	predictScore
 	•	Rank
 	•	Markets participated
 
@@ -263,7 +263,7 @@ POST /api/scoring_engine
 	•	base_delta
 	•	multiplier
 	•	final_delta
-	•	smart_score updates
+	•	predict_score updates
 
 ⸻
 
@@ -339,7 +339,7 @@ Phase 4 — Market Closing & Resolution
 	•	Close market at close_time
 	•	Admin sets outcome
 	•	Scoring engine (base + multiplier)
-	•	SmartScore update logic
+	•	predictScore update logic
 
 Phase 5 — Leaderboard
 	•	Simple global leaderboard

@@ -37,7 +37,7 @@ export default function SignupPage() {
       const { error: profileError } = await supabase.from("profiles").insert({
         id: user.id,
         username,
-        smart_score: 0,
+        predict_score: 0,
       });
 
       if (profileError) {
