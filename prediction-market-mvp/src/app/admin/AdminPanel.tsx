@@ -160,62 +160,62 @@ export default function AdminPanel() {
     setForm(emptyForm);
   };
 
-  const handleGraphMinVotesSave = () => {
+  const handleGraphMinVotesSave = async () => {
     setThresholdMessage(null);
     setThresholdError(null);
     if (Number.isNaN(graphMinVotes) || graphMinVotes < 0) {
       setThresholdError("Minimum votes must be 0 or more.");
       return;
     }
-    supabase
-      .from("settings")
-      .upsert({ key: "graph_min_votes", value: graphMinVotes })
-      .then(({ error }) => {
-        if (error) {
-          const needsTable =
-            error.message &&
-            error.message.toLowerCase().includes("could not find the table");
-          setThresholdError(
-            needsTable
-              ? "Settings table missing. Create table 'settings' (key text primary key, value jsonb) or ask your admin."
-              : error.message
-          );
-          return;
-        }
-        setThresholdMessage(`Graph threshold saved (${graphMinVotes} votes).`);
-      })
-      .catch((err) => {
-        setThresholdError(err.message);
-      });
+    try {
+      const { error } = await supabase
+        .from("settings")
+        .upsert({ key: "graph_min_votes", value: graphMinVotes });
+
+      if (error) {
+        const needsTable =
+          error.message &&
+          error.message.toLowerCase().includes("could not find the table");
+        setThresholdError(
+          needsTable
+            ? "Settings table missing. Create table 'settings' (key text primary key, value jsonb) or ask your admin."
+            : error.message
+        );
+        return;
+      }
+      setThresholdMessage(`Graph threshold saved (${graphMinVotes} votes).`);
+    } catch (err: any) {
+      setThresholdError(err?.message || "Failed to save threshold.");
+    }
   };
 
-  const handleMinVotersSave = () => {
+  const handleMinVotersSave = async () => {
     setMinVotersMessage(null);
     setMinVotersError(null);
     if (Number.isNaN(minVoters) || minVoters < 0) {
       setMinVotersError("Minimum voters must be 0 or more.");
       return;
     }
-    supabase
-      .from("settings")
-      .upsert({ key: "min_voters_scoring", value: minVoters })
-      .then(({ error }) => {
-        if (error) {
-          const needsTable =
-            error.message &&
-            error.message.toLowerCase().includes("could not find the table");
-          setMinVotersError(
-            needsTable
-              ? "Settings table missing. Create table 'settings' (key text primary key, value jsonb) or ask your admin."
-              : error.message
-          );
-          return;
-        }
-        setMinVotersMessage(`Scoring minimum updated to ${minVoters} voters.`);
-      })
-      .catch((err) => {
-        setMinVotersError(err.message);
-      });
+    try {
+      const { error } = await supabase
+        .from("settings")
+        .upsert({ key: "min_voters_scoring", value: minVoters });
+
+      if (error) {
+        const needsTable =
+          error.message &&
+          error.message.toLowerCase().includes("could not find the table");
+        setMinVotersError(
+          needsTable
+            ? "Settings table missing. Create table 'settings' (key text primary key, value jsonb) or ask your admin."
+            : error.message
+        );
+        return;
+      }
+      setMinVotersMessage(`Scoring minimum updated to ${minVoters} voters.`);
+    } catch (err: any) {
+      setMinVotersError(err?.message || "Failed to save minimum voters.");
+    }
   };
 
   const handleManualClose = async () => {

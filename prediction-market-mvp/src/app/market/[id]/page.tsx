@@ -33,12 +33,13 @@ export default async function MarketPage({ params }: Props) {
     .eq("market_id", marketId)
     .order("snapshot_time", { ascending: true });
 
-  const { count: voteCount = 0 } = await supabaseServer
+  const { count: voteCountRaw } = await supabaseServer
     .from("votes")
     .select("*", { head: true, count: "exact" })
     .eq("market_id", marketId);
+  const voteCount = voteCountRaw ?? 0;
 
-  const [{ count: yesCount = 0 }, { count: noCount = 0 }] = await Promise.all([
+  const [{ count: yesCountRaw }, { count: noCountRaw }] = await Promise.all([
     supabaseServer
       .from("votes")
       .select("*", { head: true, count: "exact" })
@@ -50,6 +51,8 @@ export default async function MarketPage({ params }: Props) {
       .eq("market_id", marketId)
       .eq("final_choice", "no"),
   ]);
+  const yesCount = yesCountRaw ?? 0;
+  const noCount = noCountRaw ?? 0;
 
   let graphMinVotes = 5;
   try {

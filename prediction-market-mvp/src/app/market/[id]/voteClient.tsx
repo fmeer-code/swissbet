@@ -62,7 +62,7 @@ export default function VoteClient({ marketId, marketStatus }: Props) {
       .maybeSingle();
 
     // Current crowd percentages before applying this change
-    const [{ count: yesCount = 0 }, { count: noCount = 0 }] = await Promise.all([
+    const [{ count: yesCountRaw }, { count: noCountRaw }] = await Promise.all([
       supabase
         .from("votes")
         .select("*", { head: true, count: "exact" })
@@ -74,6 +74,9 @@ export default function VoteClient({ marketId, marketStatus }: Props) {
         .eq("market_id", marketId)
         .eq("final_choice", "no"),
     ]);
+
+    const yesCount = yesCountRaw ?? 0;
+    const noCount = noCountRaw ?? 0;
 
     const total = yesCount + noCount || 1; // avoid divide by zero
     const yesPct = (yesCount / total) * 100;
